@@ -1,14 +1,12 @@
 :root {
-  --ink: #1d1a17;
-  --muted: #4a443e;
-  --paper: #f5f1eb;
-  --panel: rgba(255, 255, 255, 0.6);
-  --brand-red: #e21238;
-  --brand-red-deep: #f40636;
-  --brand-stone: #d8d1c6;
-  --brand-gold: #c29a4d;
-  --brand-moss: #70835d;
-  --shadow: rgba(29, 26, 23, 0.12);
+  --ink: #232d4b;
+  --muted: #46516b;
+  --paper: #f5f7fa;
+  --panel: #ffffff;
+  --brand-red: #d21414;
+  --brand-blue: #232d4b;
+  --brand-stone: #d9dde5;
+  --shadow: rgba(35, 45, 75, 0.12);
 }
 
 * { box-sizing: border-box; }
@@ -17,11 +15,9 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top, rgba(140, 29, 50, 0.1), transparent 28%),
-    linear-gradient(180deg, #f8f4ef 0%, #efe8e0 100%);
+  background: linear-gradient(180deg, #ffffff 0%, var(--paper) 100%);
   color: var(--ink);
-  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-family: Arial, "Helvetica Neue", sans-serif;
 }
 
 main,
@@ -32,59 +28,77 @@ a {
   text-decoration: none;
 }
 
-.shell {
+.site-shell {
   min-height: 100vh;
-  max-width: 980px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 12vh 8vw 8vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 2rem clamp(1.25rem, 5vw, 4rem) 5rem;
 }
 
-.brand-bar {
+.site-header {
+  min-height: 5.6rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  border-bottom: 1px solid var(--brand-stone);
+}
+
+.institutional-lockup {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
-  width: fit-content;
-  padding: 0.5rem 0.9rem 0.5rem 0.65rem;
-  border: 1px solid rgba(93, 71, 55, 0.2);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 20px var(--shadow);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--brand-red-deep);
+  width: 8rem;
+  height: 2.2rem;
+  overflow: hidden;
 }
 
-.brand-mark,
-.brand-name {
-  display: inline-block;
+.institutional-lockup img {
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  width: 120%;
+  max-width: none;
+  height: auto;
+  transform: translateY(-50%);
 }
 
-.brand-divider {
+.header-rule {
   width: 1px;
-  height: 1.1rem;
-  background: rgba(91, 17, 32, 0.5);
+  height: 2rem;
+  background: var(--brand-stone);
+}
+
+.site-name {
+  color: var(--brand-blue);
+  font-family: "Arial Narrow", "Franklin Gothic Medium", Arial, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero {
+  max-width: 54rem;
+  padding: clamp(5rem, 13vh, 9rem) 0 4rem;
 }
 
 .eyebrow {
-  margin: 1.5rem 0 0;
-  font: 700 0.8rem/1.2 "Segoe UI", Arial, sans-serif;
-  letter-spacing: 0.18em;
+  margin: 0;
+  font: 700 0.78rem/1.2 Arial, sans-serif;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--brand-red);
 }
 
 h1 {
-  margin: 1.5rem 0 1rem;
-  font-size: clamp(3rem, 8vw, 6.5rem);
-  line-height: 0.9;
-  letter-spacing: -0.07em;
-  font-weight: 700;
-  color: var(--ink);
+  max-width: 52rem;
+  margin: 1.3rem 0 1.4rem;
+  font-family: "Arial Narrow", "Franklin Gothic Medium", Arial, sans-serif;
+  font-size: clamp(3.6rem, 10vw, 8rem);
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+  font-weight: 800;
+  color: var(--brand-blue);
 }
 
 h1 span {
@@ -94,8 +108,8 @@ h1 span {
 .lede {
   max-width: 40rem;
   margin: 0;
-  font-size: clamp(1.1rem, 2vw, 1.45rem);
-  line-height: 1.55;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  line-height: 1.6;
   color: var(--muted);
 }
 
@@ -103,7 +117,7 @@ h1 span {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 2.25rem;
+  margin-top: 2rem;
 }
 
 .primary,
@@ -112,84 +126,122 @@ h1 span {
   align-items: center;
   justify-content: center;
   min-height: 3.25rem;
-  padding: 0.8rem 1.4rem;
-  border-radius: 999px;
-  font: 700 0.9rem/1 "Segoe UI", Arial, sans-serif;
+  padding: 0.9rem 1.45rem;
+  border-radius: 0.2rem;
+  font: 700 0.86rem/1 Arial, sans-serif;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .primary {
-  background: linear-gradient(180deg, var(--brand-red) 0%, var(--brand-red-deep) 100%);
+  background: var(--brand-red);
   color: #fff;
-  box-shadow: 0 12px 24px rgba(92, 17, 34, 0.25);
+  box-shadow: 0 0.7rem 1.5rem rgba(210, 20, 20, 0.2);
 }
 
-.secondary {
-  border: 1px solid rgba(92, 17, 34, 0.25);
-  background: rgba(255, 255, 255, 0.3);
-  color: var(--brand-red-deep);
-}
-
-.primary:hover,
-.secondary:hover {
+.primary:hover {
+  background: #b71111;
   transform: translateY(-1px);
 }
 
-.status-card {
-  margin-top: 3rem;
+.survey-meta {
   display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  max-width: 34rem;
-  padding: 1.25rem 1.3rem;
-  border: 1px solid rgba(120, 94, 76, 0.18);
-  border-radius: 1rem;
-  background: var(--panel);
-  box-shadow: 0 12px 30px rgba(52, 43, 36, 0.08);
-  font-family: "Segoe UI", Arial, sans-serif;
-}
-
-.status-card strong {
-  display: block;
-  color: var(--brand-red-deep);
-  font-size: 1rem;
-}
-
-.status-card p {
-  margin: 0.4rem 0 0;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.8rem;
+  margin: 1.25rem 0 0;
   color: var(--muted);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
+}
+
+.survey-card {
+  max-width: 54rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-top: 0.35rem solid var(--brand-red);
+  background: var(--panel);
+  box-shadow: 0 1rem 2.5rem var(--shadow);
+}
+
+.survey-card-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+.card-kicker {
+  margin: 0;
+  color: var(--brand-red);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.survey-card h2 {
+  max-width: 38rem;
+  margin: 1rem 0 0.75rem;
+  color: var(--brand-blue);
+  font-family: "Arial Narrow", "Franklin Gothic Medium", Arial, sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.survey-card > p {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--muted);
   line-height: 1.5;
+}
+
+.topic-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.topic-list span {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--brand-stone);
+  color: var(--brand-blue);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .status-dot {
   display: block;
-  width: 0.8rem;
-  height: 0.8rem;
-  margin-top: 0.36rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-top: 0.12rem;
   border-radius: 50%;
-  background: var(--brand-moss);
-  box-shadow: 0 0 0 0.35rem rgba(112, 131, 93, 0.2);
+  background: var(--brand-red);
+  box-shadow: 0 0 0 0.3rem rgba(210, 20, 20, 0.14);
 }
 
 @media (max-width: 640px) {
-  .shell {
-    padding-top: 8vh;
+  .site-shell {
+    padding-top: 1rem;
   }
 
-  .brand-bar {
-    letter-spacing: 0.08em;
+  .site-header {
+    min-height: 5rem;
   }
 
-  .cta-row {
-    flex-direction: column;
-    align-items: flex-start;
+  .institutional-lockup {
+    width: 6.8rem;
+    height: 2rem;
   }
 
-  .primary,
-  .secondary {
+  .site-name {
+    font-size: 0.88rem;
+  }
+
+  .hero {
+    padding-top: 5rem;
+  }
+
+  .primary {
     width: 100%;
   }
 }
