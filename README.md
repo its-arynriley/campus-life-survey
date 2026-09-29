@@ -20,18 +20,30 @@ source ~/.zshrc
 
 nvm install
 nvm use
-colima start
 ```
 
 `Brewfile` installs shared tools. The setup script automatically selects Rancher Desktop for older Intel Macs running macOS 12 or earlier, and Colima for newer Intel Macs and Apple silicon. Rancher Desktop supplies the Docker CLI and Compose directly; the Colima path installs the Docker CLI and standalone Compose through Homebrew. The `.nvmrc` file keeps local development and CI on the same Node.js major version. Docker Desktop is not required.
 
+Choose the runtime that matches your machine before starting containers:
+
+- Modern Macs (newer Intel or Apple silicon): use Colima.
+  ```sh
+  WEB_APP_STARTER_RUNTIME=colima ./scripts/setup-macos.sh
+  colima start
+  ```
+
+- Older Intel Macs on macOS 12 or earlier: use Rancher Desktop instead of Colima.
+  ```sh
+  WEB_APP_STARTER_RUNTIME=rancher ./scripts/setup-macos.sh
+  ```
+  Then open Rancher Desktop and make sure the Docker engine is running. If Rancher is not running, `./scripts/compose.sh up -d postgres` will fail.
+
 For Rancher Desktop, set **Application → Environment → PATH management** to **Automatic**. Restart the terminal afterward so the Rancher utilities and Compose plugin are available.
 
-To choose a runtime explicitly:
+If you prefer the default auto-detection path, you can just run:
 
 ```sh
-WEB_APP_STARTER_RUNTIME=rancher ./scripts/setup-macos.sh
-WEB_APP_STARTER_RUNTIME=colima ./scripts/setup-macos.sh
+./scripts/setup-macos.sh
 ```
 
 ```sh
@@ -56,13 +68,14 @@ Stop the PostgreSQL container and remove the project network with:
 ./scripts/compose.sh down
 ```
 
-When you are finished with all container-based projects, stop the Colima runtime with:
+When you are finished with all container-based projects, stop the local runtime you chose:
 
 ```sh
+# Colima users only
 colima stop
 ```
 
-Stopping Colima is optional if you plan to keep using containers.
+If you are using Rancher Desktop, stop the Docker engine from the Rancher app or close the app when you are done. Stopping Colima is optional if you plan to keep using containers.
 
 ### If Homebrew installation was interrupted
 
