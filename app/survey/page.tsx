@@ -25,6 +25,32 @@ export default function SurveyPage() {
     setErrors((previous) => ({ ...previous, [questionId]: "" }));
   };
 
+  const handleMultiSelectChange = (option: string) => {
+    const question = SURVEY_QUESTIONS[currentIndex];
+    const current = Array.isArray(answers[question.id]) ? (answers[question.id] as string[]) : [];
+
+    if (current.includes(option)) {
+      setAnswers((previous) => ({
+        ...previous,
+        [question.id]: current.filter((value) => value !== option),
+      }));
+      setErrors((previous) => ({ ...previous, [question.id]: "" }));
+      return;
+    }
+
+    if (typeof question.maxSelections === "number" && current.length >= question.maxSelections) {
+      setErrors((previous) => ({
+        ...previous,
+        [question.id]: `Please choose no more than ${question.maxSelections} options.`,
+      }));
+      return;
+    }
+
+    const nextValue = toggleMultiSelect(answers, question.id, option, question.maxSelections);
+    setAnswers(nextValue);
+    setErrors((previous) => ({ ...previous, [question.id]: "" }));
+  };
+
   const validateCurrentQuestion = () => {
     const question = SURVEY_QUESTIONS[currentIndex];
     const error = validateRequiredAnswer(question, answers);
@@ -136,7 +162,11 @@ export default function SurveyPage() {
         {currentQuestion.required ? <p className="required-note">Required</p> : <p className="required-note optional">Optional</p>}
 
         {currentQuestion.type === "single" && (
-          <fieldset className="survey-options" aria-describedby={`${currentQuestion.id}-error`}>
+          <fieldset
+            className="survey-options"
+            aria-describedby={`${currentQuestion.id}-error`}
+            aria-invalid={Boolean(errors[currentQuestion.id])}
+          >
             <legend className="sr-only">{currentQuestion.prompt}</legend>
             {currentQuestion.options?.map((option, index) => {
               const optionId = `${currentQuestion.id}-${index}`;
@@ -149,7 +179,6 @@ export default function SurveyPage() {
                     name={currentQuestion.id}
                     type="radio"
                     checked={isChecked}
-                    aria-invalid={Boolean(errors[currentQuestion.id])}
                     onChange={() => setAnswer(currentQuestion.id, option)}
                   />
                   <span>{option}</span>
@@ -160,7 +189,11 @@ export default function SurveyPage() {
         )}
 
         {currentQuestion.type === "multi" && (
-          <fieldset className="survey-options" aria-describedby={`${currentQuestion.id}-error`}>
+          <fieldset
+            className="survey-options"
+            aria-describedby={`${currentQuestion.id}-error`}
+            aria-invalid={Boolean(errors[currentQuestion.id])}
+          >
             <legend className="sr-only">{currentQuestion.prompt}</legend>
             {currentQuestion.options?.map((option, index) => {
               const optionId = `${currentQuestion.id}-${index}`;
@@ -173,12 +206,7 @@ export default function SurveyPage() {
                     name={currentQuestion.id}
                     type="checkbox"
                     checked={isChecked}
-                    aria-invalid={Boolean(errors[currentQuestion.id])}
-                    onChange={() => {
-                      const nextValue = toggleMultiSelect(answers, currentQuestion.id, option);
-                      setAnswers(nextValue);
-                      setErrors((previous) => ({ ...previous, [currentQuestion.id]: "" }));
-                    }}
+                    onChange={() => handleMultiSelectChange(option)}
                   />
                   <span>{option}</span>
                 </label>

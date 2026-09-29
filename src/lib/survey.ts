@@ -11,6 +11,7 @@ export interface SurveyQuestion {
   required?: boolean;
   options?: string[];
   maxLength?: number;
+  maxSelections?: number;
   helperText?: string;
 }
 
@@ -80,7 +81,7 @@ export const SURVEY_QUESTIONS: SurveyQuestion[] = [
     prompt: "Which areas should UVA Wise prioritize improving?",
     type: "multi",
     required: true,
-    maxLength: 3,
+    maxSelections: 3,
     options: [
       "Sense of belonging",
       "Student activities",
@@ -110,15 +111,31 @@ export const SURVEY_QUESTIONS: SurveyQuestion[] = [
   },
 ];
 
-export function toggleMultiSelect(answers: SurveyAnswers, questionId: string, optionValue: string): SurveyAnswers {
+export function toggleMultiSelect(
+  answers: SurveyAnswers,
+  questionId: string,
+  optionValue: string,
+  maxSelections?: number,
+): SurveyAnswers {
   const current = Array.isArray(answers[questionId]) ? (answers[questionId] as string[]) : [];
-  const next = current.includes(optionValue)
-    ? current.filter((value) => value !== optionValue)
-    : [...current, optionValue];
+
+  if (current.includes(optionValue)) {
+    return {
+      ...answers,
+      [questionId]: current.filter((value) => value !== optionValue),
+    };
+  }
+
+  if (typeof maxSelections === "number" && current.length >= maxSelections) {
+    return {
+      ...answers,
+      [questionId]: current,
+    };
+  }
 
   return {
     ...answers,
-    [questionId]: next,
+    [questionId]: [...current, optionValue],
   };
 }
 
@@ -138,8 +155,8 @@ export function validateRequiredAnswer(question: SurveyQuestion, answers: Survey
       return "Please choose at least one option.";
     }
 
-    if (question.maxLength && value.length > question.maxLength) {
-      return `Please choose no more than ${question.maxLength} options.`;
+    if (typeof question.maxSelections === "number" && value.length > question.maxSelections) {
+      return `Please choose no more than ${question.maxSelections} options.`;
     }
 
     return null;

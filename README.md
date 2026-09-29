@@ -42,7 +42,9 @@ npm run db:migrate
 npm run dev
 ```
 
-Open `http://localhost:3000`. The operational health endpoint is `http://localhost:3000/api/health`.
+Open `http://localhost:3000`. The demo survey is available at `http://localhost:3000/survey`.
+The survey prototype is intentionally in-memory only: it does not call the database, API, or any persistence layer, and it is meant to demonstrate the UX before production submission work is connected.
+The operational health endpoint is `http://localhost:3000/api/health`.
 
 ## Stop the local environment
 
