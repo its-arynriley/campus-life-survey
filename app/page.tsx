@@ -25,7 +25,7 @@ export default function Home() {
         </p>
 
         <div className="cta-row">
-          <a className="primary" href="#survey">
+          <a className="primary" href="/survey">
             Take the survey <span aria-hidden="true">→</span>
           </a>
         </div>
@@ -46,8 +46,8 @@ export default function Home() {
         </div>
         <h2 id="survey-title">Help build a stronger campus experience.</h2>
         <p>
-          Your perspective helps UVA Wise understand belonging, engagement, and the everyday experiences that shape student life.
-          The survey link will appear here when the feedback period opens.
+          This prototype lets students explore the flow and question set for a non-persistent Campus Life Survey mock.
+          The experience is intentionally demo-only and does not save or send responses.
         </p>
         <div className="topic-list" aria-label="Survey topics">
           <span>Belonging</span>
